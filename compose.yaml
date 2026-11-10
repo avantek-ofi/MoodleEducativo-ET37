@@ -1,0 +1,60 @@
+name: aula-et37
+services:
+  db:
+    image: postgres:17.6
+    environment:
+      POSTGRES_DB: moodle
+      POSTGRES_USER: moodle
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Definir POSTGRES_PASSWORD en .env}
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U moodle -d moodle"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+  web:
+    build: .
+    environment: &moodle_env
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Definir POSTGRES_PASSWORD en .env}
+      MOODLE_URL: ${MOODLE_URL:-http://localhost:8080}
+      MOODLE_ADMIN_PASSWORD: ${MOODLE_ADMIN_PASSWORD:?Definir MOODLE_ADMIN_PASSWORD en .env}
+      MOODLE_DEMO_PASSWORD: ${MOODLE_DEMO_PASSWORD:-}
+      MOODLE_SMTP_HOST: ${MOODLE_SMTP_HOST:-mail:1025}
+      MOODLE_NOREPLY_ADDRESS: ${MOODLE_NOREPLY_ADDRESS:-noreply@aula-et37.example}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      GOOGLE_ALLOWED_DOMAINS: ${GOOGLE_ALLOWED_DOMAINS:-}
+      TZ: America/Argentina/Buenos_Aires
+    ports:
+      - "127.0.0.1:8080:80"
+    volumes:
+      - moodledata:/var/moodledata
+    depends_on:
+      db:
+        condition: service_healthy
+      mail:
+        condition: service_started
+    restart: unless-stopped
+  mail:
+    # Solo desarrollo: captura el correo saliente (confirmación de registro) sin enviarlo a Internet.
+    image: axllent/mailpit:v1.27.10
+    ports:
+      - "127.0.0.1:8025:8025"
+    restart: unless-stopped
+  cron:
+    user: www-data
+    build: .
+    environment: *moodle_env
+    volumes:
+      - moodledata:/var/moodledata
+    depends_on:
+      db:
+        condition: service_healthy
+    entrypoint: ["/bin/sh", "-c"]
+    command: ["while true; do php /var/www/moodle/admin/cli/cron.php; sleep 60; done"]
+    restart: unless-stopped
+volumes:
+  dbdata:
+  moodledata:

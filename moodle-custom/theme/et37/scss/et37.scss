@@ -1,0 +1,846 @@
+// Aula ET37: Playful Flat + Modern Educational Dashboard over Boost's real components.
+// Tokens live in pre.scss; CSS custom properties allow Boost's dark mode to adapt them.
+
+:root {
+    --et37-violet: #{$et37-violet};
+    --et37-violet-700: #{$et37-violet-700};
+    --et37-violet-50: #{$et37-violet-50};
+    --et37-teal: #{$et37-teal};
+    --et37-teal-50: #{$et37-teal-50};
+    --et37-pink: #{$et37-pink};
+    --et37-pink-50: #{$et37-pink-50};
+    --et37-orange: #{$et37-orange};
+    --et37-orange-50: #{$et37-orange-50};
+    --et37-bg: #{$et37-lavender};
+    --et37-surface: #fff;
+    --et37-ink: #{$et37-ink};
+    --et37-muted: #{$et37-muted};
+    --et37-line: #{$et37-line};
+    --et37-focus: #{$et37-orange};
+    --et37-shadow: 0 1px 2px rgba(35, 33, 58, .04), 0 4px 16px rgba(35, 33, 58, .06);
+    --et37-shadow-hover: 0 2px 4px rgba(35, 33, 58, .06), 0 10px 24px rgba(35, 33, 58, .10);
+    --et37-radius: 1rem;
+}
+
+[data-bs-theme="dark"] {
+    --et37-violet: #b4a6ff;
+    --et37-violet-700: #d3caff;
+    --et37-violet-50: #2b2550;
+    --et37-teal: #5fd4c4;
+    --et37-teal-50: #173a37;
+    --et37-pink: #ff8fbd;
+    --et37-pink-50: #43213a;
+    --et37-orange: #ffad70;
+    --et37-orange-50: #43301f;
+    --et37-bg: #16151f;
+    --et37-surface: #211f2e;
+    --et37-ink: #f1effa;
+    --et37-muted: #c2bfd6;
+    --et37-line: #37344a;
+    --et37-focus: #ffad70;
+    --et37-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+    --et37-shadow-hover: 0 4px 16px rgba(0, 0, 0, .4);
+}
+
+// Moodle design-system tokens, used by React components such as the primary navigation.
+:root:root {
+    --mds-bg-interactive-primary-default: #{$et37-violet};
+    --mds-bg-interactive-primary-hover: #{$et37-violet-700};
+    --mds-bg-interactive-primary-active: #{$et37-violet-700};
+    --mds-border-interactive-primary-default: #{$et37-violet};
+    --mds-border-interactive-primary-hover: #{$et37-violet-700};
+    --mds-border-interactive-primary-active: #{$et37-violet-700};
+    --mds-bg-nav-pill-selected: #{$et37-violet-50};
+    --mds-bg-nav-pill-hover: #{$et37-violet-50};
+    --mds-bg-nav-pill-pressed: #{$et37-line};
+    --mds-focus-default: #{$et37-orange};
+}
+
+html[data-bs-theme="dark"] {
+    --mds-bg-nav-pill-selected: #2b2550;
+    --mds-bg-nav-pill-hover: #2b2550;
+    --mds-focus-default: #ffad70;
+}
+
+// Base and typography.
+body {
+    background-color: var(--et37-bg);
+    color: var(--et37-ink);
+    -webkit-font-smoothing: antialiased;
+}
+
+#page.drawers,
+#page-wrapper #page {
+    background-color: var(--et37-bg);
+}
+
+h1, .h1, h2, .h2, h3, .h3 {
+    letter-spacing: -.01em;
+}
+
+a {
+    color: var(--et37-violet);
+    text-underline-offset: .15em;
+
+    &:hover {
+        color: var(--et37-violet-700);
+    }
+}
+
+.text-muted,
+.dimmed_text {
+    color: var(--et37-muted) !important; // stylelint-disable-line declaration-no-important
+}
+
+// Visible focus for keyboard users on every interactive element.
+:focus-visible,
+.aabtn:focus-visible,
+.btn:focus-visible,
+.form-control:focus-visible,
+.form-select:focus-visible,
+.nav-link:focus-visible,
+.dropdown-item:focus-visible {
+    outline: 3px solid var(--et37-focus) !important; // stylelint-disable-line declaration-no-important
+    outline-offset: 2px;
+    box-shadow: none;
+}
+
+// Navbar.
+.navbar.fixed-top {
+    background-color: var(--et37-surface) !important; // stylelint-disable-line declaration-no-important
+    border-bottom: 1px solid var(--et37-line);
+    box-shadow: 0 2px 12px rgba(35, 33, 58, .05);
+}
+
+.navbar-brand {
+    font-weight: 800;
+    color: var(--et37-ink) !important; // stylelint-disable-line declaration-no-important
+    gap: .5rem;
+
+    // Decorative geometric mark; not the institutional shield.
+    &::before {
+        content: "";
+        flex: none;
+        width: 1.75rem;
+        height: 1.75rem;
+        border-radius: .5rem;
+        background:
+            radial-gradient(circle at 70% 70%, var(--et37-orange) 0 .3rem, transparent .32rem),
+            var(--et37-violet);
+    }
+
+    // An authorised logo uploaded in Moodle replaces the decorative mark.
+    &:has(.logo)::before {
+        content: none;
+    }
+}
+
+.primary-navigation .navigation .nav-link {
+    border-radius: .625rem;
+    margin: .5rem .125rem;
+    height: auto;
+    padding: .45rem .8rem;
+    color: var(--et37-muted);
+    font-weight: 600;
+    border-bottom: 0;
+
+    &:hover {
+        background-color: var(--et37-violet-50);
+        color: var(--et37-violet-700);
+    }
+
+    &.active {
+        background-color: var(--et37-violet-50);
+        color: var(--et37-violet);
+        border-bottom-color: transparent;
+    }
+}
+
+.primary-navigation .mds-nav-pill {
+    padding: .45rem .8rem;
+    border-radius: .625rem;
+
+    .mds-nav-pill__label {
+        font-size: .95rem;
+        font-weight: 600;
+    }
+
+    &.mds-nav-pill--selected {
+        color: var(--et37-violet-700);
+    }
+}
+
+.popover-region .popover-region-container,
+.dropdown-menu {
+    border-color: var(--et37-line);
+    box-shadow: var(--et37-shadow-hover);
+}
+
+.dropdown-menu {
+    padding: .375rem;
+
+    .dropdown-item {
+        border-radius: .5rem;
+    }
+}
+
+// Drawers.
+.drawer,
+.drawer.drawer-left,
+.drawer.drawer-right {
+    background-color: var(--et37-surface);
+    border-color: var(--et37-line);
+}
+
+#theme_boost-drawers-primary .list-group-item {
+    border: 0;
+    border-radius: .625rem;
+    margin-bottom: .25rem;
+    font-weight: 600;
+
+    &.active {
+        background-color: var(--et37-violet-50);
+        color: var(--et37-violet);
+    }
+}
+
+// Secondary navigation (course, profile, admin tabs).
+.secondary-navigation .navigation .nav-tabs {
+    border-bottom: 1px solid var(--et37-line);
+
+    .nav-link {
+        border-radius: .625rem .625rem 0 0;
+        font-weight: 600;
+        color: var(--et37-muted);
+
+        &.active {
+            color: var(--et37-violet);
+            border-bottom-color: var(--et37-violet);
+        }
+    }
+}
+
+// Cards and blocks.
+.card,
+.block.card {
+    border-color: var(--et37-line);
+    border-radius: var(--et37-radius);
+    background-color: var(--et37-surface);
+    box-shadow: var(--et37-shadow);
+}
+
+.block.card {
+    margin-bottom: 1.25rem;
+
+    .card-title,
+    .card-body > h3,
+    .card-body > h5 {
+        font-weight: 700;
+        font-size: 1.125rem;
+        color: var(--et37-ink);
+    }
+}
+
+#region-main {
+    border-radius: var(--et37-radius);
+}
+
+// Buttons.
+.btn {
+    padding-inline: 1.1rem;
+}
+
+.btn-primary {
+    --#{$prefix}btn-bg: var(--et37-violet);
+    --#{$prefix}btn-border-color: var(--et37-violet);
+    --#{$prefix}btn-hover-bg: var(--et37-violet-700);
+    --#{$prefix}btn-hover-border-color: var(--et37-violet-700);
+    --#{$prefix}btn-active-bg: var(--et37-violet-700);
+    --#{$prefix}btn-active-border-color: var(--et37-violet-700);
+}
+
+[data-bs-theme="dark"] .btn-primary {
+    --#{$prefix}btn-color: #16151f;
+    --#{$prefix}btn-hover-color: #16151f;
+    --#{$prefix}btn-active-color: #16151f;
+}
+
+.btn-secondary {
+    --#{$prefix}btn-bg: var(--et37-violet-50);
+    --#{$prefix}btn-border-color: var(--et37-violet-50);
+    --#{$prefix}btn-color: var(--et37-violet-700);
+    --#{$prefix}btn-hover-bg: var(--et37-line);
+    --#{$prefix}btn-hover-border-color: var(--et37-line);
+    --#{$prefix}btn-hover-color: var(--et37-violet-700);
+    --#{$prefix}btn-active-bg: var(--et37-line);
+    --#{$prefix}btn-active-color: var(--et37-violet-700);
+}
+
+.btn-outline-primary {
+    --#{$prefix}btn-color: var(--et37-violet);
+    --#{$prefix}btn-border-color: var(--et37-violet);
+    --#{$prefix}btn-hover-bg: var(--et37-violet);
+    --#{$prefix}btn-hover-border-color: var(--et37-violet);
+}
+
+// Forms.
+.form-control,
+.form-select,
+.custom-select {
+    border-radius: .625rem;
+    min-height: 2.75rem;
+}
+
+.form-label,
+.col-form-label {
+    font-weight: 600;
+}
+
+// Progress bars (course cards, completion).
+.progress {
+    border-radius: 999px;
+    background-color: var(--et37-violet-50);
+
+    .progress-bar {
+        border-radius: 999px;
+        background-color: var(--et37-teal);
+    }
+}
+
+// Course cards from block_myoverview and /my/courses.php.
+.card.course-card,
+.card.dashboard-card {
+    overflow: hidden;
+    border-radius: var(--et37-radius);
+    transition: transform .15s ease, box-shadow .15s ease;
+
+    &:hover,
+    &:focus-within {
+        transform: translateY(-2px);
+        box-shadow: var(--et37-shadow-hover);
+    }
+
+    .card-img-top,
+    .dashboard-card-img {
+        height: 6.5rem;
+        border-radius: 0;
+    }
+
+    .card-body {
+        padding: 1rem 1rem .5rem;
+    }
+
+    .coursename {
+        font-size: 1.05rem;
+        font-weight: 700;
+        line-height: 1.3;
+        color: var(--et37-ink);
+
+        &:hover {
+            color: var(--et37-violet);
+        }
+    }
+
+    .categoryname {
+        display: inline-block;
+        max-width: 100%;
+        margin-bottom: .35rem;
+        padding: .1rem .55rem;
+        border-radius: 999px;
+        background-color: var(--et37-violet-50);
+        color: var(--et37-violet-700);
+        font-size: .75rem;
+        font-weight: 600;
+    }
+
+    .card-footer {
+        background-color: transparent !important; // stylelint-disable-line declaration-no-important
+    }
+
+    .et37-progress {
+        display: grid;
+        gap: .35rem;
+    }
+
+    .progress-text {
+        font-size: .8rem;
+        font-weight: 600;
+        color: var(--et37-muted);
+    }
+}
+
+// Course list and summary views.
+.block_myoverview .list-group-item,
+.course-summaryitem {
+    border-color: var(--et37-line);
+    border-radius: .75rem;
+    margin-bottom: .5rem;
+}
+
+// Timeline (upcoming tasks).
+.block_timeline {
+    .list-group-item {
+        border-color: var(--et37-line);
+    }
+
+    [data-region="event-list-content-date"] h5,
+    .list-group-item.bg-light,
+    h5.h6 {
+        font-weight: 700;
+        color: var(--et37-violet-700);
+    }
+
+    .event-name a,
+    .event-name {
+        font-weight: 600;
+    }
+}
+
+// Mini calendar.
+.block_calendar_month,
+.block_calendar_upcoming {
+    .calendartable td.today .day-number-circle,
+    .minicalendar td.today .day-number-circle {
+        background-color: var(--et37-violet) !important; // stylelint-disable-line declaration-no-important
+        color: #fff;
+    }
+}
+
+.calendarmonth td.today .day-number-circle,
+.maincalendar .calendarmonth td.today .day-number-circle {
+    background-color: var(--et37-violet);
+}
+
+// Empty states: friendly tinted panel instead of a bare grey message.
+[data-region="empty-message"],
+.block_myoverview [data-region="empty-message"],
+.empty-placeholder-image-lg + p,
+.block_timeline [data-region="no-events-empty-message"] {
+    color: var(--et37-muted);
+}
+
+[data-region="empty-message"],
+[data-region="no-events-empty-message"] {
+    border: 2px dashed var(--et37-line);
+    border-radius: var(--et37-radius);
+    background-color: var(--et37-bg);
+    padding: 1.5rem 1rem;
+}
+
+.empty-placeholder-image-lg,
+.empty-placeholder-image-sm {
+    opacity: .85;
+}
+
+// Dashboard header and quick links.
+#page-my-index #page-header,
+#page-my-courses #page-header {
+    position: relative;
+    overflow: hidden;
+    margin-top: 1rem;
+    margin-bottom: 1.25rem;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--et37-line);
+    border-radius: 1.25rem;
+    background-color: var(--et37-surface);
+    box-shadow: var(--et37-shadow);
+
+    // Flat decorative shapes, hidden from assistive technology by being pseudo-elements without content.
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    &::before {
+        width: 9rem;
+        height: 9rem;
+        right: -2.5rem;
+        top: -3rem;
+        background-color: var(--et37-violet-50);
+    }
+
+    &::after {
+        width: 3.5rem;
+        height: 3.5rem;
+        right: 5.5rem;
+        top: 1.25rem;
+        background-color: var(--et37-teal-50);
+    }
+
+    > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    h1, .h2 {
+        margin-bottom: .25rem;
+    }
+}
+
+.et37-today {
+    margin: 0 0 .75rem;
+    color: var(--et37-muted);
+    font-weight: 600;
+
+    &::first-letter {
+        text-transform: uppercase;
+    }
+}
+
+.et37-quicklinks {
+    margin-top: .5rem;
+
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .625rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    li {
+        flex: 0 1 auto;
+    }
+}
+
+.et37-quicklink {
+    display: flex;
+    align-items: center;
+    gap: .625rem;
+    min-height: 3.25rem;
+    padding: .5rem .75rem;
+    border: 1px solid var(--et37-line);
+    border-radius: .875rem;
+    background-color: var(--et37-surface);
+    color: var(--et37-ink);
+    font-weight: 600;
+    text-decoration: none;
+    line-height: 1.2;
+    white-space: nowrap;
+    transition: background-color .15s ease, border-color .15s ease, transform .15s ease;
+
+    &:hover,
+    &:focus-visible {
+        color: var(--et37-ink);
+        text-decoration: none;
+        border-color: currentColor;
+        transform: translateY(-1px);
+    }
+
+    .et37-quicklink-icon {
+        display: inline-flex;
+        flex: none;
+        align-items: center;
+        justify-content: center;
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: .625rem;
+
+        .icon {
+            margin: 0;
+            font-size: 1rem;
+            width: auto;
+            height: auto;
+            color: inherit;
+        }
+    }
+
+    &.et37-tone-violet .et37-quicklink-icon {
+        background-color: var(--et37-violet-50);
+        color: var(--et37-violet);
+    }
+
+    &.et37-tone-teal .et37-quicklink-icon {
+        background-color: var(--et37-teal-50);
+        color: var(--et37-teal);
+    }
+
+    &.et37-tone-pink .et37-quicklink-icon {
+        background-color: var(--et37-pink-50);
+        color: var(--et37-pink);
+    }
+
+    &.et37-tone-orange .et37-quicklink-icon {
+        background-color: var(--et37-orange-50);
+        color: var(--et37-orange);
+    }
+}
+
+// Footer.
+#page-footer {
+    background-color: var(--et37-surface);
+    border-top: 1px solid var(--et37-line);
+}
+
+.btn-footer-popover,
+.btn-footer-communication {
+    box-shadow: var(--et37-shadow-hover);
+}
+
+// Login and signup (layout "login").
+.pagelayout-login {
+    #page {
+        background-color: var(--et37-bg);
+    }
+
+    .login-layout-right {
+        align-items: flex-start;
+    }
+
+    .login-container {
+        padding: 2rem 1.75rem;
+        border: 1px solid var(--et37-line);
+        border-radius: 1.25rem;
+        background-color: var(--et37-surface);
+        box-shadow: var(--et37-shadow);
+    }
+
+    .login-container .loginform > h1 {
+        font-weight: 800;
+    }
+
+    .login-container .login-form .login-input-wrapper .form-control {
+        width: 100%;
+        background-color: var(--et37-bg);
+        border-color: var(--et37-line);
+        min-height: 3rem;
+    }
+
+    // On small screens Moodle wraps the password in an input group with a show/hide button.
+    .login-container .login-form .login-input-wrapper .input-group > .form-control,
+    .login-container .login-form .login-input-wrapper .toggle-sensitive-wrapper > .form-control {
+        width: 1%;
+        flex: 1 1 auto;
+    }
+
+    .login-container .login-form .toggle-sensitive-wrapper .toggle-sensitive-btn {
+        --#{$prefix}btn-bg: var(--et37-bg);
+        --#{$prefix}btn-border-color: var(--et37-line);
+    }
+
+    #loginbtn {
+        min-height: 3rem;
+        font-size: 1.05rem;
+    }
+
+    .login-identityprovider-btn {
+        min-height: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: .5rem;
+        border-radius: .75rem;
+        color: var(--et37-ink) !important; // stylelint-disable-line declaration-no-important
+        font-weight: 600;
+    }
+
+    // Signup and photo forms reuse Moodle forms inside the card.
+    .mform fieldset legend,
+    .mform .ftoggler {
+        font-weight: 700;
+        font-size: 1.05rem;
+    }
+}
+
+// Left panel: flat violet with geometric shapes and school copy.
+.login-layout-left {
+    position: sticky;
+    overflow: hidden;
+    color: #fff;
+
+    .et37-shapes {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+    }
+}
+
+.login-layout-left .login-layout-left-content {
+    position: relative;
+    z-index: 1;
+    max-width: 30rem;
+    margin-bottom: 0;
+    padding: 0;
+    background-color: transparent;
+    color: #fff;
+    text-align: start;
+
+    h1, h2 {
+        color: #fff;
+        font-weight: 800;
+    }
+
+    a {
+        color: #fff;
+    }
+}
+
+.et37-login-school {
+    margin-bottom: 1.5rem;
+    color: #ece8ff;
+    font-weight: 600;
+}
+
+.et37-login-features {
+    display: grid;
+    gap: .75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+        padding: .75rem 1rem;
+        border-radius: .875rem;
+        background-color: rgba(255, 255, 255, .12);
+        font-weight: 600;
+    }
+
+    .et37-dot {
+        flex: none;
+        width: .875rem;
+        height: .875rem;
+        border-radius: .25rem;
+    }
+}
+
+.et37-dot-teal { background-color: #5fe0cf; }
+.et37-dot-pink { background-color: #ff9cc5; }
+.et37-dot-orange { background-color: #ffb877; }
+.et37-dot-white { background-color: #fff; }
+
+// Brand mark shared by the mobile login header and the left panel.
+.et37-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: .625rem;
+    margin-bottom: 1.25rem;
+    font-weight: 800;
+    font-size: 1.25rem;
+}
+
+.et37-brand-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: .875rem;
+    background-color: #fff;
+    color: $et37-violet;
+    font-size: .875rem;
+    font-weight: 800;
+    letter-spacing: .02em;
+}
+
+.et37-login-brand-mobile {
+    color: var(--et37-ink);
+
+    .et37-brand-mark {
+        background-color: var(--et37-violet);
+        color: #fff;
+    }
+
+    .et37-brand-school {
+        display: block;
+        font-size: .8rem;
+        font-weight: 600;
+        color: var(--et37-muted);
+    }
+}
+
+// Photo step page.
+.et37-step-kicker {
+    display: inline-block;
+    margin-bottom: .5rem;
+    padding: .15rem .65rem;
+    border-radius: 999px;
+    background-color: var(--et37-orange-50);
+    color: var(--et37-orange);
+    font-size: .8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+
+.et37-step-tips {
+    margin: 1rem 0 1.25rem;
+    padding-inline-start: 1.25rem;
+    color: var(--et37-muted);
+}
+
+// Small screens (from 360 px).
+@include media-breakpoint-down(md) {
+    // Boost keeps the breadcrumb on one line, which overflows 360 px screens.
+    #page-navbar .breadcrumb {
+        flex-wrap: wrap;
+        min-width: 0;
+    }
+
+    #page-navbar {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    #page-my-index #page-header,
+    #page-my-courses #page-header {
+        margin-top: .5rem;
+        padding: 1rem;
+        border-radius: 1rem;
+
+        &::before,
+        &::after {
+            display: none;
+        }
+    }
+
+    .et37-quicklinks ul {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .et37-quicklink {
+        flex-direction: column;
+        justify-content: center;
+        gap: .35rem;
+        min-height: 4.75rem;
+        padding: .625rem .375rem;
+        font-size: .875rem;
+        text-align: center;
+        white-space: normal;
+    }
+
+    .pagelayout-login .login-container {
+        padding: 1.5rem 1rem;
+        border-radius: 1rem;
+    }
+}
+
+// Respect reduced-motion preferences.
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important; // stylelint-disable-line declaration-no-important
+        animation-duration: .01ms !important; // stylelint-disable-line declaration-no-important
+        animation-iteration-count: 1 !important; // stylelint-disable-line declaration-no-important
+        transition-duration: .01ms !important; // stylelint-disable-line declaration-no-important
+    }
+
+    .card.course-card:hover,
+    .card.course-card:focus-within,
+    .card.dashboard-card:hover,
+    .card.dashboard-card:focus-within,
+    .et37-quicklink:hover,
+    .et37-quicklink:focus-visible {
+        transform: none;
+    }
+}
