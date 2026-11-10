@@ -17,3 +17,4 @@
 - Accesos rápidos del dashboard renderizados en el `core_renderer` del tema, agregados dentro de la cabecera nativa; solo enlazan a páginas nativas y respetan configuraciones (`messaging`, `enablemycourses`). Sin estadísticas inventadas.
 - Textos de acceso corregidos con el paquete `es_local` (mismo mecanismo que la herramienta de personalización de idioma), sin pisar personalizaciones existentes.
 - Paleta de 10 colores en `coursecolor1..10` para que los patrones generados de los cursos coincidan con el tema.
+- `.gitattributes` fuerza LF en todo el texto (`* text=auto eol=lf`) y marca binarios: los archivos se copian a contenedores Linux y un `core.autocrlf=true` en Windows podía dejar `scripts/install.sh` o la configuración de Apache/PHP con CRLF.
