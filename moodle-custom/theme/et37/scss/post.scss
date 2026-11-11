@@ -1,0 +1,9 @@
+// Runs after Boost's extra SCSS: replaces its AI-generated login photo with the flat ET37 panel.
+body.pagelayout-login #page .login-layout-left {
+    background-image: none;
+    background-color: var(--et37-violet);
+}
+
+body.pagelayout-login #page .login-layout-left::after {
+    content: none;
+}

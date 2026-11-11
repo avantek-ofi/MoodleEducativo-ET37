@@ -1,0 +1,63 @@
+{{!
+    This file is part of Aula ET37 - https://moodle.org/
+
+    Aula ET37 is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+}}
+{{!
+    @template theme_et37/sidenav
+
+    Grouped links of the left navigation drawer. Each group is a native <details> element,
+    so it folds without JavaScript and with the keyboard. The course index (inherited
+    "courseindex" variable) follows the "This course" group.
+
+    Example context (json):
+    {
+        "hasthiscourse": false,
+        "sections": [
+            {
+                "key": "myspace",
+                "index": 0,
+                "title": "My space",
+                "open": true,
+                "isthiscourse": false,
+                "links": [
+                    {"url": "#", "label": "Dashboard", "icon": "i/dashboard", "current": true}
+                ]
+            }
+        ]
+    }
+}}
+<nav class="et37-sidenav" aria-label="{{#str}}sidenav, theme_et37{{/str}}">
+    {{#sections}}
+        <details class="et37-sidenav-group" data-group="{{key}}" {{#open}}open{{/open}}>
+            <summary class="et37-sidenav-title" id="et37-sidenav-{{index}}">{{title}}</summary>
+            <ul class="et37-sidenav-list" aria-labelledby="et37-sidenav-{{index}}">
+                {{#links}}
+                    <li>
+                        <a class="et37-sidenav-link{{#current}} active{{/current}}" href="{{url}}" {{#current}}aria-current="page"{{/current}}>
+                            {{#pix}}{{icon}}, core{{/pix}}
+                            <span class="et37-sidenav-label">{{label}}</span>
+                        </a>
+                    </li>
+                {{/links}}
+            </ul>
+        </details>
+        {{#isthiscourse}}
+            {{#courseindex}}
+                <section class="et37-sidenav-courseindex" aria-labelledby="et37-courseindex-title">
+                    <h2 class="et37-sidenav-title" id="et37-courseindex-title">{{#str}}sidenavcoursecontent, theme_et37{{/str}}</h2>
+                    {{> theme_boost/courseindexdrawercontrols}}
+                    {{{courseindex}}}
+                </section>
+            {{/courseindex}}
+        {{/isthiscourse}}
+    {{/sections}}
+    {{^hasthiscourse}}
+        {{#courseindex}}
+            {{{courseindex}}}
+        {{/courseindex}}
+    {{/hasthiscourse}}
+</nav>

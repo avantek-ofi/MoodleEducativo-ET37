@@ -1,0 +1,54 @@
+{{!
+    This file is part of Aula ET37 - https://moodle.org/
+
+    Aula ET37 is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+}}
+{{!
+    @template local_aulaet37/timetable
+
+    Personal timetable: today's classes first, then the whole week.
+
+    Example context (json):
+    {
+        "intro": "Tus clases de la semana.",
+        "todayname": "lunes",
+        "hastoday": false,
+        "today": [],
+        "hasitems": false,
+        "days": []
+    }
+}}
+<div class="et37-timetable">
+    <p class="text-muted">{{intro}}</p>
+    {{#hasitems}}
+        <section class="et37-today-classes card" aria-labelledby="et37-today-heading">
+            <div class="card-body">
+                <h2 class="h4" id="et37-today-heading">{{#str}}todayclasses, local_aulaet37, {{todayname}}{{/str}}</h2>
+                {{#hastoday}}
+                    <ol class="et37-agenda">
+                        {{#today}}
+                            <li class="et37-agenda-item{{#isnow}} et37-agenda-now{{/isnow}}{{#isdone}} et37-agenda-done{{/isdone}}">
+                                <span class="et37-agenda-time"><time>{{start}}</time> – <time>{{end}}</time></span>
+                                <span class="et37-agenda-course"><a href="{{courseurl}}">{{coursename}}</a>{{#room}} · {{room}}{{/room}}</span>
+                                {{#isnow}}<span class="badge et37-badge-now">{{#str}}now, local_aulaet37{{/str}}</span>{{/isnow}}
+                            </li>
+                        {{/today}}
+                    </ol>
+                {{/hastoday}}
+                {{^hastoday}}
+                    <p class="mb-0">{{#str}}noclassestoday, local_aulaet37{{/str}}</p>
+                {{/hastoday}}
+            </div>
+        </section>
+        <h2 class="h4 mt-4">{{#str}}weekview, local_aulaet37{{/str}}</h2>
+        {{> local_aulaet37/timetable_week }}
+    {{/hasitems}}
+    {{^hasitems}}
+        <div class="et37-empty card"><div class="card-body">
+            <p class="mb-0">{{#str}}notimetable, local_aulaet37{{/str}}</p>
+        </div></div>
+    {{/hasitems}}
+</div>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="local/aulaet37/db" VERSION="20261112" COMMENT="XMLDB file for Aula ET37"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="local_aulaet37_slots" COMMENT="Weekly class timetable: one row per class block of a classroom (course).">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Classroom the block belongs to."/>
+        <FIELD NAME="groupid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Group (division) of the course, 0 for everyone."/>
+        <FIELD NAME="weekday" TYPE="int" LENGTH="2" NOTNULL="true" SEQUENCE="false" COMMENT="ISO-8601 day of the week, 1 = Monday ... 6 = Saturday."/>
+        <FIELD NAME="starttime" TYPE="int" LENGTH="4" NOTNULL="true" SEQUENCE="false" COMMENT="Minutes after midnight."/>
+        <FIELD NAME="endtime" TYPE="int" LENGTH="4" NOTNULL="true" SEQUENCE="false" COMMENT="Minutes after midnight."/>
+        <FIELD NAME="room" TYPE="char" LENGTH="100" NOTNULL="true" DEFAULT="" SEQUENCE="false" COMMENT="Classroom, lab or workshop."/>
+        <FIELD NAME="notes" TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT="" SEQUENCE="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="courseid" TYPE="foreign" FIELDS="courseid" REFTABLE="course" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="weekday" UNIQUE="false" FIELDS="weekday, starttime"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>

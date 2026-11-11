@@ -1,0 +1,67 @@
+// Aula ET37 design tokens. Prepended before Boost, whose preset uses !default.
+// Contrast ratios are against white (#fff) unless noted; see docs/DESIGN_SYSTEM.md.
+
+$et37-violet: #5b3fd1;        // 6.8:1, primary actions and links.
+$et37-violet-700: #4329b0;    // 9.6:1, hover/active.
+$et37-violet-50: #efebff;     // Tinted surfaces.
+$et37-teal: #0f766e;          // 5.5:1, progress and success accents.
+$et37-teal-50: #dcf5f1;
+$et37-pink: #be185d;          // 6.0:1.
+$et37-pink-50: #fde6f0;
+$et37-orange: #c2410c;        // 5.2:1, focus ring and warnings.
+$et37-orange-50: #ffedd8;
+$et37-lavender: #f5f3fe;      // Page background.
+$et37-ink: #23213a;           // 15.5:1, body text.
+$et37-muted: #5c5975;         // 6.7:1, secondary text.
+$et37-line: #e3def6;          // Card borders.
+
+$primary: $et37-violet;
+$info: $et37-teal;
+$body-bg: $et37-lavender;
+$body-color: $et37-ink;
+$link-color: $et37-violet;
+$link-hover-color: $et37-violet-700;
+
+$border-radius: .75rem;
+$border-radius-sm: .5rem;
+$border-radius-lg: 1rem;
+$border-radius-xl: 1.25rem;
+
+$card-border-radius: 1rem;
+$card-border-color: $et37-line;
+$card-cap-bg: transparent;
+
+$btn-font-weight: 600;
+$btn-border-radius: .75rem;
+$btn-border-radius-sm: .5rem;
+$btn-border-radius-lg: .875rem;
+$input-border-radius: .625rem;
+$input-border-radius-sm: .5rem;
+$input-border-radius-lg: .75rem;
+$input-focus-border-color: $et37-violet;
+$input-focus-box-shadow: 0 0 0 .25rem rgba(91, 63, 209, .25);
+
+$headings-font-weight: 700;
+$headings-color: $et37-ink;
+
+$dropdown-border-radius: .75rem;
+$dropdown-link-hover-color: $et37-ink;
+$dropdown-link-hover-bg: $et37-violet-50;
+$dropdown-link-active-bg: $et37-violet;
+
+$progress-height: .5rem;
+$progress-border-radius: 999px;
+$progress-bg: $et37-violet-50;
+$progress-bar-bg: $et37-teal;
+
+$modal-content-border-radius: 1rem;
+$popover-border-radius: .75rem;
+$toast-border-radius: .75rem;
+
+// Activity icon colours by purpose, from the school palette (Boost recolours the icons with them).
+$activity-icon-administration-bg: #9b2fae;
+$activity-icon-assessment-bg: #be185d;
+$activity-icon-collaboration-bg: #5b3fd1;
+$activity-icon-communication-bg: #c2410c;
+$activity-icon-content-bg: #0f766e;
+$activity-icon-interactivecontent-bg: #127fa5;

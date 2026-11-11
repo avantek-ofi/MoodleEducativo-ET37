@@ -1,0 +1,34 @@
+{{!
+    This file is part of Aula ET37 - https://moodle.org/
+
+    Aula ET37 is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+}}
+{{!
+    @template theme_et37/dashboard_quicklinks
+
+    Date and shortcuts to native Moodle pages, shown in the dashboard header.
+
+    Example context (json):
+    {
+        "today": "lunes, 10 de noviembre de 2026",
+        "links": [
+            {"url": "https://example.invalid/my/courses.php", "label": "Mis cursos", "icon": "i/course", "tone": "violet"}
+        ]
+    }
+}}
+<p class="et37-today">{{today}}</p>
+<nav class="et37-quicklinks" aria-label="{{#str}}quicklinks, theme_et37{{/str}}">
+    <ul>
+        {{#links}}
+            <li>
+                <a class="et37-quicklink et37-tone-{{tone}}" href="{{url}}">
+                    <span class="et37-quicklink-icon" aria-hidden="true">{{#pix}}{{icon}}, core{{/pix}}</span>
+                    <span>{{label}}</span>
+                </a>
+            </li>
+        {{/links}}
+    </ul>
+</nav>

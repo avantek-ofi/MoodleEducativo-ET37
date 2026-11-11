@@ -1,0 +1,45 @@
+{{!
+    This file is part of Aula ET37 - https://moodle.org/
+
+    Aula ET37 is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+}}
+{{!
+    @template core/login_layout
+
+    Split-screen login layout from Boost with a flat ET37 panel and a compact
+    brand header for small screens, where the left panel is hidden.
+
+    Example context (json):
+    {
+        "output": {
+            "main_content": "<h1>Login form goes here</h1>"
+        }
+    }
+}}
+<div id="page-content" class="min-vh-100 row g-0">
+    <aside class="login-layout-left col-lg-6 d-none d-lg-flex">
+        <svg class="et37-shapes" aria-hidden="true" focusable="false" viewBox="0 0 600 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="560" cy="90" r="120" fill="#7457e0"/>
+            <rect x="-60" y="610" width="230" height="230" rx="48" fill="#4c33bd"/>
+            <circle cx="90" cy="120" r="34" fill="#5fe0cf"/>
+            <rect x="470" y="640" width="76" height="76" rx="20" fill="#ff9cc5" transform="rotate(14 508 678)"/>
+            <circle cx="520" cy="420" r="16" fill="#ffb877"/>
+            <rect x="60" y="430" width="22" height="22" rx="6" fill="#ffffff" opacity=".5"/>
+        </svg>
+        {{> core/login_panel }}
+    </aside>
+    <div id="region-main" class="login-layout-right col-12 col-lg-6">
+        <div id="region-main-box" class="login-layout-right-content">
+            <div class="et37-brand et37-login-brand-mobile d-lg-none">
+                <span class="et37-brand-mark" aria-hidden="true">ET37</span>
+                <span>{{#str}}brandname, theme_et37{{/str}}<span class="et37-brand-school">{{#str}}schoolshort, theme_et37{{/str}}</span></span>
+            </div>
+            <div class="login-container">
+                {{{ output.main_content }}}
+            </div>
+        </div>
+    </div>
+</div>

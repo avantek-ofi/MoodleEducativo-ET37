@@ -1,0 +1,41 @@
+{{!
+    This file is part of Aula ET37 - https://moodle.org/
+
+    Aula ET37 is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+}}
+{{!
+    @template core/login_panel
+
+    Left panel of the login layout. Describes what the platform offers using
+    Moodle's real features; it shows no statistics. Site auth instructions,
+    when configured, replace the default copy as in core.
+
+    Example context (json):
+    {
+        "leftinstructions": ""
+    }
+}}
+<div class="login-layout-left-content">
+    <div class="et37-brand">
+        <span class="et37-brand-mark" aria-hidden="true">ET37</span>
+        <span>{{#str}}brandname, theme_et37{{/str}}</span>
+    </div>
+    {{^leftinstructions}}
+        <h2 class="h1 mb-2">{{#str}}loginpaneltitle, theme_et37{{/str}}</h2>
+        <p class="et37-login-school">{{#str}}schoolname, theme_et37{{/str}}</p>
+        <ul class="et37-login-features">
+            <li><span class="et37-dot et37-dot-teal" aria-hidden="true"></span>{{#str}}loginfeature1, theme_et37{{/str}}</li>
+            <li><span class="et37-dot et37-dot-pink" aria-hidden="true"></span>{{#str}}loginfeature2, theme_et37{{/str}}</li>
+            <li><span class="et37-dot et37-dot-orange" aria-hidden="true"></span>{{#str}}loginfeature3, theme_et37{{/str}}</li>
+            <li><span class="et37-dot et37-dot-white" aria-hidden="true"></span>{{#str}}loginfeature4, theme_et37{{/str}}</li>
+        </ul>
+    {{/leftinstructions}}
+    {{#leftinstructions}}
+        <div class="text-start">
+            {{{leftinstructions}}}
+        </div>
+    {{/leftinstructions}}
+</div>

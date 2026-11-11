@@ -1,0 +1,644 @@
+// Aula ET37: activities, code, school panel and class timetable.
+// Included after et37.scss (see lib.php). Uses the custom properties defined there.
+
+// Activities on the course page: each item is a light card with a tinted icon tile.
+.course-content {
+    // Moodle 5.3 draws the section box on .section-item; the outer list item stays plain.
+    .course-section {
+        margin-bottom: 1rem;
+        padding: 0;
+        border: 0;
+        background-color: transparent;
+        box-shadow: none;
+    }
+
+    .course-section .section-item {
+        padding: .75rem 1rem 1rem;
+        border: 1px solid var(--et37-line);
+        border-radius: 1.25rem;
+        background-color: var(--et37-surface);
+        box-shadow: var(--et37-shadow);
+    }
+
+    .course-section-header .sectionname,
+    .course-section-header h3 {
+        font-size: 1.25rem;
+        font-weight: 700;
+    }
+
+    .activity-item:not(.activityinline) {
+        padding: .75rem .875rem;
+        border: 1px solid var(--et37-line);
+        border-radius: var(--et37-radius);
+        background-color: var(--et37-surface);
+        transition: border-color .15s ease, box-shadow .15s ease;
+
+        &:hover {
+            border-color: var(--et37-violet);
+            box-shadow: var(--et37-shadow-hover);
+        }
+    }
+
+    li.activity {
+        margin-bottom: .5rem;
+    }
+
+    .activityname .instancename,
+    .activityname a {
+        font-weight: 600;
+    }
+}
+
+.activityiconcontainer {
+    border-radius: .875rem;
+}
+
+@each $type, $value in $activity-icon-colors {
+    .activityiconcontainer.#{$type}:not(.isbranded) {
+        background-color: rgba($value, .1);
+    }
+}
+
+// Dates ("Opens", "Due") and completion conditions, on the course page and in the activity header.
+.activity-dates,
+[data-region="activity-dates"] {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .25rem .75rem;
+    color: var(--et37-muted);
+    font-size: .875rem;
+
+    strong {
+        color: var(--et37-ink);
+    }
+}
+
+.activity-information .completion-info .badge,
+.activity-information [data-region="completionrequirements"] .badge,
+.activity-information .btn {
+    border-radius: 999px;
+}
+
+.activity-header {
+    margin-bottom: 1.25rem;
+    padding: .875rem 1rem;
+    border: 1px solid var(--et37-line);
+    border-radius: var(--et37-radius);
+    background-color: var(--et37-violet-50);
+
+    // The template leaves comments and whitespace, so :empty never matches.
+    &:empty,
+    &:not(:has(.activity-details > *, .activity-description, .activity-dates, .completion-info, .alert, form, button,
+            .badge)) {
+        display: none;
+    }
+
+    .activity-description {
+        margin-top: .5rem;
+    }
+}
+
+// Activity pages: assignment status, quiz summary and generic tables.
+#region-main .generaltable {
+    overflow: hidden;
+    border-radius: .75rem;
+
+    thead th,
+    th.header {
+        background-color: var(--et37-violet-50);
+        color: var(--et37-ink);
+        font-weight: 700;
+    }
+}
+
+.submissionstatustable,
+.feedback,
+.gradingsummary,
+.quizinfo,
+.quizattemptsummary {
+    margin-bottom: 1.25rem;
+}
+
+.submissionstatustable .generaltable,
+.gradingsummarytable .generaltable,
+.feedbacktable .generaltable {
+    border: 1px solid var(--et37-line);
+    background-color: var(--et37-surface);
+
+    th {
+        width: 30%;
+        color: var(--et37-muted);
+    }
+}
+
+.submissionstatussubmitted,
+.submissiongraded,
+.latesubmission.earlysubmission {
+    background-color: var(--et37-teal-50) !important; // stylelint-disable-line declaration-no-important
+    color: var(--et37-ink);
+}
+
+.overdue,
+.submissionstatusreopened {
+    background-color: var(--et37-orange-50) !important; // stylelint-disable-line declaration-no-important
+}
+
+// Quiz questions (including CodeRunner).
+.que {
+    .info {
+        border-radius: var(--et37-radius);
+        border-color: var(--et37-line);
+        background-color: var(--et37-violet-50);
+    }
+
+    .formulation {
+        border-radius: var(--et37-radius);
+        border-color: var(--et37-line);
+        background-color: var(--et37-surface);
+        color: var(--et37-ink);
+    }
+
+    .outcome,
+    .comment {
+        border-radius: var(--et37-radius);
+    }
+}
+
+#mod_quiz_navblock .qnbutton {
+    border-radius: .625rem;
+}
+
+// Code: inline code tinted, blocks dark with horizontal scroll (never wider than the page).
+#region-main {
+    code,
+    kbd {
+        padding: .1em .35em;
+        border-radius: .375rem;
+        background-color: var(--et37-violet-50);
+        color: var(--et37-violet-700);
+        font-size: .9em;
+    }
+
+    .no-overflow pre,
+    .text_to_html pre,
+    .qtext pre,
+    .activity-description pre,
+    .post-content-container pre,
+    .box.generalbox pre {
+        max-width: 100%;
+        overflow-x: auto;
+        padding: 1rem 1.125rem;
+        border-radius: .875rem;
+        background-color: #1f1b33;
+        color: #f1effa;
+        font-size: .875rem;
+        line-height: 1.55;
+        tab-size: 4;
+
+        code {
+            padding: 0;
+            background: none;
+            color: inherit;
+            font-size: inherit;
+        }
+
+        // Addresses inside code turned into links by the URL filter.
+        a {
+            color: #c9bdff;
+        }
+    }
+}
+
+// CodeRunner answer box (Ace) and result table.
+.que.coderunner {
+    .ace_editor,
+    textarea.coderunner-answer,
+    .coderunner-answer {
+        border-radius: .75rem;
+    }
+
+    .coderunner-test-results {
+        overflow-x: auto;
+        border-radius: .75rem;
+
+        pre {
+            margin: 0;
+            padding: .25rem .5rem;
+            border-radius: .375rem;
+            background-color: var(--et37-bg);
+            color: var(--et37-ink);
+            white-space: pre-wrap;
+        }
+    }
+}
+
+// Activity chooser: options as cards.
+.modchooser {
+    .option,
+    .optionscontainer .option {
+        border-radius: var(--et37-radius);
+        transition: background-color .15s ease;
+
+        &:hover,
+        &:focus-within {
+            background-color: var(--et37-violet-50);
+        }
+    }
+
+    .optionicon .activityiconcontainer,
+    .option .activityiconcontainer {
+        border-radius: .875rem;
+    }
+}
+
+// School panel on the dashboard (local_aulaet37/dashboard_panel).
+.et37-panel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    gap: 1rem;
+    margin-top: 1.25rem;
+}
+
+.et37-panel-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 1rem 1.125rem;
+    border: 1px solid var(--et37-line);
+    border-radius: var(--et37-radius);
+    background-color: var(--et37-surface);
+}
+
+.et37-panel-head {
+    display: flex;
+    align-items: center;
+    gap: .625rem;
+    margin-bottom: .75rem;
+
+    h2 {
+        margin: 0;
+        font-weight: 700;
+
+        &::first-letter {
+            text-transform: uppercase;
+        }
+    }
+}
+
+.et37-panel-icon {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: .625rem;
+
+    .icon {
+        margin: 0;
+        color: inherit;
+    }
+
+    &.et37-tone-violet {
+        background-color: var(--et37-violet-50);
+        color: var(--et37-violet);
+    }
+
+    &.et37-tone-orange {
+        background-color: var(--et37-orange-50);
+        color: var(--et37-orange);
+    }
+
+    &.et37-tone-teal {
+        background-color: var(--et37-teal-50);
+        color: var(--et37-teal);
+    }
+}
+
+.et37-panel-empty {
+    flex: 1 1 auto;
+    color: var(--et37-muted);
+}
+
+.et37-panel-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+    margin: auto 0 0;
+    padding-top: .5rem;
+    font-weight: 600;
+}
+
+.et37-news-list,
+.et37-date-list,
+.et37-agenda {
+    margin: 0 0 .75rem;
+    padding: 0;
+    list-style: none;
+}
+
+.et37-news-list li {
+    padding: .5rem 0;
+    border-bottom: 1px solid var(--et37-line);
+
+    &:last-child {
+        border-bottom: 0;
+    }
+}
+
+.et37-news-title {
+    display: block;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.et37-news-date {
+    color: var(--et37-muted);
+    font-size: .8125rem;
+}
+
+.et37-news-excerpt {
+    margin: .25rem 0 0;
+    color: var(--et37-muted);
+    font-size: .875rem;
+    overflow-wrap: anywhere;
+}
+
+.et37-date-list li + li {
+    margin-top: .5rem;
+}
+
+.et37-date-list a {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    color: var(--et37-ink);
+    text-decoration: none;
+
+    &:hover .et37-date-name,
+    &:focus-visible .et37-date-name {
+        color: var(--et37-violet);
+        text-decoration: underline;
+    }
+}
+
+.et37-date-chip {
+    display: inline-flex;
+    flex: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: .75rem;
+    background-color: var(--et37-orange-50);
+    color: var(--et37-orange);
+    font-weight: 700;
+    line-height: 1.05;
+
+    span:first-child {
+        font-size: 1.125rem;
+    }
+
+    span:last-child {
+        font-size: .6875rem;
+        text-transform: uppercase;
+    }
+}
+
+.et37-date-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+
+    time {
+        color: var(--et37-muted);
+        font-size: .8125rem;
+    }
+}
+
+.et37-date-name {
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+// Today's agenda (dashboard and timetable page).
+.et37-agenda-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: .25rem .75rem;
+    padding: .5rem .625rem;
+    border-left: 4px solid var(--et37-teal);
+    border-radius: .5rem;
+    background-color: var(--et37-bg);
+
+    & + & {
+        margin-top: .375rem;
+    }
+
+    &.et37-agenda-now {
+        border-left-color: var(--et37-orange);
+        background-color: var(--et37-orange-50);
+    }
+
+    &.et37-agenda-done {
+        opacity: .75;
+    }
+}
+
+.et37-agenda-time {
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+}
+
+.et37-agenda-course {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.et37-badge-now {
+    background-color: var(--et37-orange);
+    color: #fff;
+}
+
+.et37-badge-today {
+    background-color: var(--et37-violet);
+    color: #fff;
+}
+
+// Class timetable (local_aulaet37/timetable, course_timetable).
+.et37-timetable-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    margin-bottom: 1rem;
+}
+
+.et37-timetable-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+}
+
+.et37-today-classes {
+    border-color: var(--et37-teal);
+}
+
+.et37-week {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    gap: .625rem;
+}
+
+.et37-day {
+    min-width: 0;
+    padding: .75rem;
+    border: 1px solid var(--et37-line);
+    border-radius: var(--et37-radius);
+    background-color: var(--et37-surface);
+
+    &.et37-day-today {
+        border-color: var(--et37-violet);
+        box-shadow: 0 0 0 2px var(--et37-violet-50);
+    }
+}
+
+.et37-day-name {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+    margin-bottom: .625rem;
+    font-size: 1rem;
+    font-weight: 700;
+
+    span:first-child::first-letter {
+        text-transform: uppercase;
+    }
+}
+
+.et37-day-empty {
+    margin: 0;
+    color: var(--et37-muted);
+    font-size: .875rem;
+}
+
+.et37-slots {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.et37-slot {
+    --et37-slot-tone: var(--et37-violet);
+    --et37-slot-bg: var(--et37-violet-50);
+    padding: .5rem .625rem;
+    border-left: 4px solid var(--et37-slot-tone);
+    border-radius: .5rem;
+    background-color: var(--et37-slot-bg);
+
+    & + & {
+        margin-top: .5rem;
+    }
+
+    p {
+        margin: 0;
+    }
+
+    &.et37-tone1 { --et37-slot-tone: var(--et37-teal); --et37-slot-bg: var(--et37-teal-50); }
+    &.et37-tone2 { --et37-slot-tone: var(--et37-pink); --et37-slot-bg: var(--et37-pink-50); }
+    &.et37-tone3 { --et37-slot-tone: var(--et37-orange); --et37-slot-bg: var(--et37-orange-50); }
+    &.et37-tone4 { --et37-slot-tone: var(--et37-violet-700); --et37-slot-bg: var(--et37-bg); }
+    &.et37-tone5 { --et37-slot-tone: var(--et37-teal); --et37-slot-bg: var(--et37-bg); }
+
+    &.et37-slot-now {
+        outline: 2px solid var(--et37-orange);
+    }
+}
+
+.et37-slot-time {
+    font-size: .8125rem;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+}
+
+.et37-slot-course {
+    font-weight: 700;
+    overflow-wrap: break-word;
+    hyphens: auto;
+
+    a {
+        color: var(--et37-ink);
+    }
+}
+
+.et37-slot-meta {
+    margin: .25rem 0 0;
+    padding: 0;
+    list-style: none;
+    color: var(--et37-muted);
+    font-size: .8125rem;
+
+    li {
+        overflow-wrap: anywhere;
+    }
+
+    .icon {
+        margin-right: .25rem;
+        font-size: .75rem;
+    }
+}
+
+.et37-slot-actions {
+    display: flex;
+    gap: .375rem;
+    margin-top: .5rem !important; // stylelint-disable-line declaration-no-important
+}
+
+.et37-student-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+    gap: .25rem 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    a {
+        display: inline-flex;
+        align-items: center;
+        gap: .375rem;
+        min-height: 2.75rem;
+    }
+}
+
+.et37-empty {
+    border-style: dashed;
+    background-color: var(--et37-violet-50);
+}
+
+@include media-breakpoint-down(md) {
+    .course-content .course-section .section-item {
+        padding: .625rem .75rem .75rem;
+        border-radius: 1rem;
+    }
+
+    .et37-week {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    // On phones today comes first.
+    .et37-day-today {
+        order: -1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .course-content .activity-item:not(.activityinline) {
+        transition: none;
+    }
+}

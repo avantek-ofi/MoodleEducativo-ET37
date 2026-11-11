@@ -1,0 +1,28 @@
+{{!
+    This file is part of Aula ET37 - https://moodle.org/
+
+    Aula ET37 is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+}}
+{{!
+    @template block_myoverview/progress-bar
+
+    Course progress from Moodle completion data: the text from core plus a visual
+    bar. The bar is decorative because the text already states the value.
+
+    Example context (json):
+    {
+        "progress": 50
+    }
+}}
+<div class="et37-progress">
+    <div class="progress" aria-hidden="true">
+        <div class="progress-bar" style="width: {{progress}}%"></div>
+    </div>
+    <div class="progress-text">
+        <span class="visually-hidden">{{#str}}aria:courseprogress, block_myoverview{{/str}}</span>
+        {{#str}}completepercent, block_myoverview, <span>{{progress}}</span>{{/str}}
+    </div>
+</div>

@@ -1,0 +1,36 @@
+{{!
+    This file is part of Aula ET37 - https://moodle.org/
+
+    Aula ET37 is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+}}
+{{!
+    @template local_aulaet37/data_step
+
+    Personal data step (DNI and birth date) shown after login when they are missing.
+
+    Example context (json):
+    {
+        "fullname": "Ana Pérez",
+        "required": true,
+        "form": "<form></form>",
+        "logouturl": "https://example.invalid/login/logout.php",
+        "profileurl": "https://example.invalid/user/profile.php"
+    }
+}}
+<div class="et37-step">
+    <p class="et37-step-kicker">{{#str}}datastepkicker, local_aulaet37{{/str}}</p>
+    <h1 class="h2">{{#str}}datastep, local_aulaet37{{/str}}</h1>
+    <p class="text-muted">{{#str}}datastepintro, local_aulaet37, {{fullname}}{{/str}}</p>
+    {{{form}}}
+    <p class="small text-center mt-4 mb-0">
+        {{#required}}
+            <a href="{{logouturl}}">{{#str}}logout{{/str}}</a>
+        {{/required}}
+        {{^required}}
+            <a href="{{profileurl}}">{{#str}}viewprofile{{/str}}</a>
+        {{/required}}
+    </p>
+</div>

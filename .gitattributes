@@ -1,0 +1,16 @@
+# Todo el texto se guarda y se descarga con LF: los archivos se copian a
+# contenedores Linux (scripts, configuración de Apache/PHP, código de Moodle).
+* text=auto eol=lf
+
+# Binarios: sin conversión de finales de línea ni diff de texto.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.zip binary
+*.mbz binary

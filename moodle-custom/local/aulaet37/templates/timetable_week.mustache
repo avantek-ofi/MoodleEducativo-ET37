@@ -1,0 +1,63 @@
+{{!
+    This file is part of Aula ET37 - https://moodle.org/
+
+    Aula ET37 is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+}}
+{{!
+    @template local_aulaet37/timetable_week
+
+    Week of class blocks: one column per school day on wide screens, one stacked card per day on
+    phones. Today is highlighted and the block in progress is marked.
+
+    Example context (json):
+    {
+        "days": [
+            {"name": "lunes", "istoday": true, "hasitems": true, "count": 1, "items": [
+                {"start": "07:45", "end": "09:05", "coursename": "Programación II", "courseurl": "#", "room": "Lab. 2",
+                 "notes": "", "teachers": "Valeria Demo", "groupname": "", "tone": "tone1", "isnow": true,
+                 "editurl": "#", "deleteurl": "#"}
+            ]}
+        ]
+    }
+}}
+<div class="et37-week">
+    {{#days}}
+        <section class="et37-day{{#istoday}} et37-day-today{{/istoday}}" aria-labelledby="et37-day-{{weekday}}">
+            <h3 class="et37-day-name" id="et37-day-{{weekday}}">
+                <span>{{name}}</span>
+                {{#istoday}}<span class="badge et37-badge-today">{{#str}}today, local_aulaet37{{/str}}</span>{{/istoday}}
+            </h3>
+            {{#hasitems}}
+                <ol class="et37-slots">
+                    {{#items}}
+                        <li class="et37-slot et37-{{tone}}{{#isnow}} et37-slot-now{{/isnow}}">
+                            <p class="et37-slot-time">
+                                <time>{{start}}</time> – <time>{{end}}</time>
+                                {{#isnow}}<span class="badge et37-badge-now">{{#str}}now, local_aulaet37{{/str}}</span>{{/isnow}}
+                            </p>
+                            <p class="et37-slot-course"><a href="{{courseurl}}">{{coursename}}</a></p>
+                            <ul class="et37-slot-meta">
+                                {{#room}}<li>{{#pix}}i/location, core{{/pix}}<span class="sr-only">{{#str}}slotroom, local_aulaet37{{/str}}: </span>{{room}}</li>{{/room}}
+                                {{#teachers}}<li>{{#pix}}i/user, core{{/pix}}<span class="sr-only">{{#str}}teachers, local_aulaet37{{/str}}: </span>{{teachers}}</li>{{/teachers}}
+                                {{#groupname}}<li>{{#pix}}i/group, core{{/pix}}<span class="sr-only">{{#str}}slotgroup, local_aulaet37{{/str}}: </span>{{groupname}}</li>{{/groupname}}
+                                {{#notes}}<li>{{#pix}}i/info, core{{/pix}}{{notes}}</li>{{/notes}}
+                            </ul>
+                            {{#editurl}}
+                                <p class="et37-slot-actions">
+                                    <a class="btn btn-sm btn-outline-primary" href="{{editurl}}">{{#str}}edit{{/str}}<span class="sr-only"> {{name}} {{start}}</span></a>
+                                    <a class="btn btn-sm btn-outline-danger" href="{{deleteurl}}">{{#str}}delete{{/str}}<span class="sr-only"> {{name}} {{start}}</span></a>
+                                </p>
+                            {{/editurl}}
+                        </li>
+                    {{/items}}
+                </ol>
+            {{/hasitems}}
+            {{^hasitems}}
+                <p class="et37-day-empty">{{#str}}noclasses, local_aulaet37{{/str}}</p>
+            {{/hasitems}}
+        </section>
+    {{/days}}
+</div>
