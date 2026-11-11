@@ -14,4 +14,9 @@ $CFG->wwwroot = getenv('MOODLE_URL') ?: 'http://localhost:8080';
 $CFG->dataroot = '/var/moodledata';
 $CFG->admin = 'admin';
 $CFG->directorypermissions = 02770;
+// Security: paths to executables cannot be changed from the web interface, and plugins are only
+// installed from the Dockerfile (never uploaded or updated through the browser).
+$CFG->preventexecpath = true;
+$CFG->disableupdateautodeploy = true;
+$CFG->disableonclickaddoninstall = true;
 require_once(__DIR__ . '/lib/setup.php');

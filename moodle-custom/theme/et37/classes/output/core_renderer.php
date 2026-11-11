@@ -29,6 +29,11 @@ class core_renderer extends \theme_boost\output\core_renderer {
             return $html;
         }
         $extra = $this->render_from_template('theme_et37/dashboard_quicklinks', $this->dashboard_quicklinks());
+        // School panel (announcements, school dates, today's classes) from local_aulaet37, when installed.
+        if (class_exists('\local_aulaet37\output\dashboard_panel')) {
+            $panel = new \local_aulaet37\output\dashboard_panel();
+            $extra .= $this->render_from_template('local_aulaet37/dashboard_panel', $panel->export_for_template($this));
+        }
         $count = 0;
         $result = preg_replace('~</header>\s*$~', $extra . '</header>', $html, 1, $count);
         return $count ? $result : $html . $extra;
@@ -47,9 +52,13 @@ class core_renderer extends \theme_boost\output\core_renderer {
             $links[] = ['url' => new moodle_url('/my/courses.php'), 'label' => get_string('mycourses'),
                 'icon' => 'i/course', 'tone' => 'violet'];
         }
+        if (class_exists('\local_aulaet37\local\timetable')) {
+            $links[] = ['url' => new moodle_url('/local/aulaet37/horario.php'),
+                'label' => get_string('mytimetable', 'local_aulaet37'), 'icon' => 'i/scheduled', 'tone' => 'teal'];
+        }
         $links = array_merge($links, [
             ['url' => new moodle_url('/calendar/view.php', ['view' => 'upcoming']),
-                'label' => get_string('upcomingtasks', 'theme_et37'), 'icon' => 'i/scheduled', 'tone' => 'orange'],
+                'label' => get_string('upcomingtasks', 'theme_et37'), 'icon' => 'i/duration', 'tone' => 'orange'],
             ['url' => new moodle_url('/calendar/view.php', ['view' => 'month']), 'label' => get_string('calendar', 'calendar'),
                 'icon' => 'i/calendar', 'tone' => 'teal'],
             ['url' => new moodle_url('/grade/report/overview/index.php'), 'label' => get_string('grades', 'grades'),

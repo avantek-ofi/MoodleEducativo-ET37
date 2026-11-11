@@ -11,6 +11,10 @@ else
 fi
 php admin/cli/cfg.php --name=theme --set=et37
 php public/local/aulaet37/cli/setup.php
+php public/local/aulaet37/cli/institution.php
+php public/local/aulaet37/cli/security.php
 if [ -n "${MOODLE_DEMO_PASSWORD:-}" ]; then
     php public/local/aulaet37/cli/seed_demo.php --confirm
+    php public/local/aulaet37/cli/seed_institution_demo.php --confirm
+    php public/local/aulaet37/cli/seed_classrooms_demo.php --confirm
 fi

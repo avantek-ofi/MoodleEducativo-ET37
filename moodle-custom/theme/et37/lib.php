@@ -24,7 +24,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 function theme_et37_get_main_scss_content($theme): string {
     return theme_boost_get_main_scss_content($theme) . "\n" .
-        file_get_contents(__DIR__ . '/scss/et37.scss');
+        file_get_contents(__DIR__ . '/scss/et37.scss') . "
+" .
+        file_get_contents(__DIR__ . '/scss/activities.scss');
 }
 
 /**

@@ -31,7 +31,7 @@ Los acentos claros (`*-50`) solo se usan como fondo de íconos o chips; el texto
 ## Componentes
 
 - **Acceso** (`templates/core/login_layout.mustache`, `core/login_panel.mustache`): panel izquierdo violeta plano con figuras geométricas SVG (`aria-hidden`) y cuatro funciones reales de la plataforma; se quitaron las estadísticas genéricas de Moodle ("500.000.000 usuarios") y la foto generada por IA. En < 992 px el panel se oculta y aparece una cabecera compacta con la marca. Formulario en tarjeta blanca; campos de 3rem de alto; botón de Google con el mismo estilo.
-- **Registro y paso de foto**: usan el mismo layout. El paso de foto tiene etiqueta "Último paso", tres consejos y el selector de archivos nativo.
+- **Registro, paso de datos y paso de foto**: usan el mismo layout. "Completá tus datos" (etiqueta "Antes de empezar") pide DNI y fecha a cuentas que no los tienen; el paso de foto tiene etiqueta "Último paso", tres consejos y el selector de archivos nativo.
 - **Dashboard** (`classes/output/core_renderer.php`, `templates/dashboard_quicklinks.mustache`): la cabecera nativa (título y saludo de Moodle) se convierte en tarjeta con fecha y accesos rápidos a páginas nativas: Próximas entregas, Calendario, Calificaciones, Mensajes (si la mensajería está activa) y Mis cursos (solo si `enablemycourses` está activo). Cada acceso tiene un tono de la paleta. En móvil pasan a una grilla 2×2 con ícono arriba.
 - **Tarjetas de curso** (`templates/block_myoverview/progress-bar.mustache`): imagen o patrón generado por Moodle con la paleta de 10 colores configurada en `coursecolor1..10`, nombre en negrita, categoría como chip y barra de progreso (decorativa, `aria-hidden`; el porcentaje se sigue leyendo como texto).
 - **Estados vacíos**: los mensajes nativos (`data-region="empty-message"`) se muestran en un panel con borde punteado y fondo lavanda.
@@ -53,3 +53,15 @@ No se usa el escudo institucional (sin recurso autorizado en el proyecto). La ma
 - Modo oscuro: hay tokens oscuros, pero los modos de color de Boost están desactivados en el sitio y no se verificó con ellos activos.
 - Lector de pantalla real (NVDA/Orca) y zoom 200 %.
 - Revisión con estudiantes y docentes.
+
+## Actividades, código, panel y horario (11/11/2026)
+
+`scss/activities.scss` (se incluye después de `et37.scss`):
+
+- **Aula**: cada sección es una tarjeta (`.section-item`, que Moodle 5.3 usa como caja); cada actividad, una tarjeta interna con borde violeta al pasar el mouse. Íconos con fondo tenue del color de su propósito: administración `#9b2fae`, evaluación `#be185d`, colaboración `#5b3fd1`, comunicación `#c2410c`, contenido `#0f766e`, contenido interactivo `#127fa5` (variables `$activity-icon-*` en `pre.scss`).
+- **Página de actividad**: encabezado con fechas y condiciones de finalización sobre lila (se oculta si queda vacío), tablas con cabecera lila y bordes redondeados, estados de entrega en verde azulado/naranja.
+- **Código**: `code` en línea sobre lila; bloques `pre` oscuros (`#1f1b33`, texto `#f1effa`, 14,6:1) con desplazamiento horizontal propio para no ensanchar la página; editor y resultados de CodeRunner redondeados.
+- **Panel del área personal**: tres tarjetas (avisos, fechas con "chip" de día/mes, clases de hoy) en grilla automática que pasa a una columna en pantallas angostas.
+- **Horario**: una columna por día (lunes a viernes, sábado solo si tiene clases), hoy con borde violeta y etiqueta "Hoy", bloque en curso con contorno naranja y etiqueta "Ahora", color por aula; en celular los días se apilan y hoy va primero. Palabras largas con guiones automáticos.
+
+Verificado en 1366, 1440 y 375 px sin scroll horizontal.

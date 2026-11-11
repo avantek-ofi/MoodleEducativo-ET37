@@ -1,0 +1,100 @@
+{{!
+    This file is part of Aula ET37 - https://moodle.org/
+
+    Aula ET37 is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+}}
+{{!
+    @template local_aulaet37/dashboard_panel
+
+    School panel on the dashboard: announcements, school dates and today's classes.
+
+    Example context (json):
+    {
+        "hasannouncements": true,
+        "announcements": [{"subject": "Bienvenida", "url": "#", "excerpt": "Texto", "date": "11/11/26",
+            "datetime": "2026-11-11T08:00:00-03:00", "pinned": true}],
+        "announcementsurl": "#",
+        "postannouncementurl": "#",
+        "hasdates": true,
+        "dates": [{"name": "Acto de cierre", "day": "28", "month": "nov", "when": "viernes, 28 de noviembre",
+            "datetime": "2026-11-28T10:00:00-03:00", "url": "#"}],
+        "datesurl": "#",
+        "adddateurl": "",
+        "hastoday": false,
+        "today": [],
+        "todayname": "martes",
+        "timetableurl": "#"
+    }
+}}
+<div class="et37-panel">
+    <section class="et37-panel-card et37-panel-news" aria-labelledby="et37-panel-news">
+        <header class="et37-panel-head">
+            <span class="et37-panel-icon et37-tone-violet" aria-hidden="true">{{#pix}}i/bullhorn, core{{/pix}}</span>
+            <h2 class="h5" id="et37-panel-news">{{#str}}panelnews, local_aulaet37{{/str}}</h2>
+        </header>
+        {{#hasannouncements}}
+            <ul class="et37-news-list">
+                {{#announcements}}
+                    <li>
+                        <a class="et37-news-title" href="{{url}}">{{#pinned}}{{#pix}}i/pinned, mod_forum, {{#str}}discussionpinned, forum{{/str}}{{/pix}} {{/pinned}}{{subject}}</a>
+                        <time class="et37-news-date" datetime="{{datetime}}">{{date}}</time>
+                        {{#excerpt}}<p class="et37-news-excerpt">{{excerpt}}</p>{{/excerpt}}
+                    </li>
+                {{/announcements}}
+            </ul>
+        {{/hasannouncements}}
+        {{^hasannouncements}}<p class="et37-panel-empty">{{#str}}panelnonews, local_aulaet37{{/str}}</p>{{/hasannouncements}}
+        <p class="et37-panel-links">
+            {{#announcementsurl}}<a href="{{announcementsurl}}">{{#str}}panelallnews, local_aulaet37{{/str}}</a>{{/announcementsurl}}
+            {{#postannouncementurl}}<a class="btn btn-sm btn-primary" href="{{postannouncementurl}}">{{#str}}panelpostnews, local_aulaet37{{/str}}</a>{{/postannouncementurl}}
+        </p>
+    </section>
+
+    <section class="et37-panel-card et37-panel-dates" aria-labelledby="et37-panel-dates">
+        <header class="et37-panel-head">
+            <span class="et37-panel-icon et37-tone-orange" aria-hidden="true">{{#pix}}i/siteevent, core{{/pix}}</span>
+            <h2 class="h5" id="et37-panel-dates">{{#str}}paneldates, local_aulaet37{{/str}}</h2>
+        </header>
+        {{#hasdates}}
+            <ul class="et37-date-list">
+                {{#dates}}
+                    <li>
+                        <a href="{{url}}">
+                            <span class="et37-date-chip" aria-hidden="true"><span>{{day}}</span><span>{{month}}</span></span>
+                            <span class="et37-date-text"><span class="et37-date-name">{{name}}</span>
+                            <time datetime="{{datetime}}">{{when}}</time></span>
+                        </a>
+                    </li>
+                {{/dates}}
+            </ul>
+        {{/hasdates}}
+        {{^hasdates}}<p class="et37-panel-empty">{{#str}}panelnodates, local_aulaet37{{/str}}</p>{{/hasdates}}
+        <p class="et37-panel-links">
+            <a href="{{datesurl}}">{{#str}}panelalldates, local_aulaet37{{/str}}</a>
+            {{#adddateurl}}<a class="btn btn-sm btn-primary" href="{{adddateurl}}">{{#str}}paneladddate, local_aulaet37{{/str}}</a>{{/adddateurl}}
+        </p>
+    </section>
+
+    <section class="et37-panel-card et37-panel-today" aria-labelledby="et37-panel-today">
+        <header class="et37-panel-head">
+            <span class="et37-panel-icon et37-tone-teal" aria-hidden="true">{{#pix}}i/scheduled, core{{/pix}}</span>
+            <h2 class="h5" id="et37-panel-today">{{#str}}todayclasses, local_aulaet37, {{todayname}}{{/str}}</h2>
+        </header>
+        {{#hastoday}}
+            <ol class="et37-agenda">
+                {{#today}}
+                    <li class="et37-agenda-item{{#isnow}} et37-agenda-now{{/isnow}}{{#isdone}} et37-agenda-done{{/isdone}}">
+                        <span class="et37-agenda-time"><time>{{start}}</time> – <time>{{end}}</time></span>
+                        <span class="et37-agenda-course"><a href="{{courseurl}}">{{coursename}}</a>{{#room}} · {{room}}{{/room}}</span>
+                        {{#isnow}}<span class="badge et37-badge-now">{{#str}}now, local_aulaet37{{/str}}</span>{{/isnow}}
+                    </li>
+                {{/today}}
+            </ol>
+        {{/hastoday}}
+        {{^hastoday}}<p class="et37-panel-empty">{{#str}}noclassestoday, local_aulaet37{{/str}}</p>{{/hastoday}}
+        <p class="et37-panel-links"><a href="{{timetableurl}}">{{#str}}panelfulltimetable, local_aulaet37{{/str}}</a></p>
+    </section>
+</div>

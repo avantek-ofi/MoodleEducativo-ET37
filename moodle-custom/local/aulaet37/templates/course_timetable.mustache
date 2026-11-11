@@ -1,0 +1,58 @@
+{{!
+    This file is part of Aula ET37 - https://moodle.org/
+
+    Aula ET37 is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+}}
+{{!
+    @template local_aulaet37/course_timetable
+
+    Timetable of one classroom, with editing for teachers/preceptors and the student list for
+    those who may open personal timetables.
+
+    Example context (json):
+    {
+        "days": [],
+        "hasitems": false,
+        "canmanage": true,
+        "addurl": "#",
+        "myurl": "#",
+        "canviewothers": true,
+        "hasstudents": true,
+        "students": [{"fullname": "Tomás Demo", "url": "#"}]
+    }
+}}
+<div class="et37-timetable">
+    <div class="et37-timetable-head">
+        <h2 class="h3 mb-0">{{#str}}coursetimetable, local_aulaet37{{/str}}</h2>
+        <div class="et37-timetable-actions">
+            <a class="btn btn-secondary" href="{{myurl}}">{{#str}}mytimetable, local_aulaet37{{/str}}</a>
+            {{#canmanage}}<a class="btn btn-primary" href="{{addurl}}">{{#pix}}t/add, core{{/pix}} {{#str}}slotadd, local_aulaet37{{/str}}</a>{{/canmanage}}
+        </div>
+    </div>
+    {{#hasitems}}
+        {{> local_aulaet37/timetable_week }}
+    {{/hasitems}}
+    {{^hasitems}}
+        <div class="et37-empty card"><div class="card-body">
+            <p class="mb-0">{{#str}}nocoursetimetable, local_aulaet37{{/str}}</p>
+        </div></div>
+    {{/hasitems}}
+
+    {{#canviewothers}}
+        <section class="card mt-4" aria-labelledby="et37-students-heading">
+            <div class="card-body">
+                <h2 class="h4" id="et37-students-heading">{{#str}}studenttimetables, local_aulaet37{{/str}}</h2>
+                <p class="text-muted">{{#str}}studenttimetablesintro, local_aulaet37{{/str}}</p>
+                {{#hasstudents}}
+                    <ul class="et37-student-list">
+                        {{#students}}<li><a href="{{url}}">{{#pix}}i/scheduled, core{{/pix}}{{fullname}}</a></li>{{/students}}
+                    </ul>
+                {{/hasstudents}}
+                {{^hasstudents}}<p class="mb-0">{{#str}}nostudents, local_aulaet37{{/str}}</p>{{/hasstudents}}
+            </div>
+        </section>
+    {{/canviewothers}}
+</div>

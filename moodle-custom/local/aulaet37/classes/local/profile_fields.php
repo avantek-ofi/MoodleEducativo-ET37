@@ -12,7 +12,8 @@ namespace local_aulaet37\local;
  * Creates the native custom profile fields used at registration.
  *
  * Existing fields are never overwritten, so administrators can adjust them from
- * Site administration > Users > User profile fields.
+ * Site administration > Users > User profile fields. They are not "required" in
+ * Moodle: the plugin requires them only for self-registered and Google accounts.
  *
  * @package    local_aulaet37
  * @copyright  2026 Aula ET37
@@ -24,6 +25,9 @@ class profile_fields {
 
     /** Short name of the birth date field. */
     public const BIRTHDATE = 'fechanacimiento';
+
+    /** Short name of the optional GitHub username field. */
+    public const GITHUB = 'github';
 
     /** First selectable year for the birth date. */
     public const START_YEAR = 1930;
@@ -48,7 +52,7 @@ class profile_fields {
                 'datatype' => 'text',
                 'description' => ['text' => get_string('field_dni_desc', 'local_aulaet37'), 'format' => FORMAT_HTML],
                 'categoryid' => $categoryid,
-                'required' => 1,
+                'required' => 0,
                 'locked' => 0,
                 'visible' => PROFILE_VISIBLE_PRIVATE,
                 'forceunique' => 1,
@@ -72,7 +76,7 @@ class profile_fields {
                 'datatype' => 'datetime',
                 'description' => ['text' => '', 'format' => FORMAT_HTML],
                 'categoryid' => $categoryid,
-                'required' => 1,
+                'required' => 0,
                 'locked' => 0,
                 'visible' => PROFILE_VISIBLE_PRIVATE,
                 'forceunique' => 0,
@@ -91,6 +95,31 @@ class profile_fields {
                 'param3' => 0,
             ], []);
             $created[] = self::BIRTHDATE;
+        }
+
+        if (!$DB->record_exists('user_info_field', ['shortname' => self::GITHUB])) {
+            // Optional, filled in by the person from their profile; shown to them and their teachers
+            // as a link to the public GitHub profile (Moodle replaces $$ with the value).
+            profile_save_field((object) [
+                'shortname' => self::GITHUB,
+                'name' => get_string('field_github', 'local_aulaet37'),
+                'datatype' => 'text',
+                'description' => ['text' => get_string('field_github_desc', 'local_aulaet37'), 'format' => FORMAT_HTML],
+                'categoryid' => $categoryid,
+                'required' => 0,
+                'locked' => 0,
+                'visible' => PROFILE_VISIBLE_TEACHERS,
+                'forceunique' => 0,
+                'signup' => 0,
+                'defaultdata' => '',
+                'defaultdataformat' => FORMAT_MOODLE,
+                'param1' => 30,
+                'param2' => 39,
+                'param3' => 0,
+                'param4' => 'https://github.com/$$',
+                'param5' => '_blank',
+            ], []);
+            $created[] = self::GITHUB;
         }
 
         return $created;

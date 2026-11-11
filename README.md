@@ -21,10 +21,21 @@ Otros comandos: `docker compose down` para detener; `docker compose logs --tail=
 
 ## Registro e inicio con Google
 
-- Autorregistro por correo con nombre, apellido, correo, DNI, fecha de nacimiento y, al primer ingreso, foto de perfil obligatoria.
+- Autorregistro por correo con nombre, apellido, correo, DNI, fecha de nacimiento y, al primer ingreso, foto de perfil obligatoria. Las cuentas de Google sin DNI o fecha los completan en un paso propio antes de la foto. Administradores y cuentas manuales no están obligados a completarlos.
 - Google OAuth 2: crear un cliente "Aplicación web" en Google Cloud Console con la URI de redirección `http://localhost:8080/admin/oauth2callback.php`, completar `GOOGLE_CLIENT_ID` y `GOOGLE_CLIENT_SECRET` (y opcionalmente `GOOGLE_ALLOWED_DOMAINS`) en `.env`, reiniciar con `docker compose up -d` y volver a ejecutar el instalador. No subir credenciales a Git.
 
 Ver [seguridad](docs/SECURITY.md) antes de usar datos reales: DNI y fecha de nacimiento de menores requieren base legal y consentimiento.
+
+## Herramientas de la escuela
+
+- **Avisos de la escuela**: foro de avisos del sitio con suscripción forzosa; llegan a todas las cuentas por notificación y correo y se ven en el área personal. Publican los directivos.
+- **Fechas de la escuela**: eventos del calendario del sitio, visibles para todos.
+- **Horario de clases**: cada aula carga sus bloques ("Horario del aula"); cada estudiante ve "Mi horario" con sus clases del día y de la semana; preceptoría y docentes abren el horario de cada estudiante.
+- **Programación con corrección automática**: preguntas CodeRunner (Python, C, C++, Java, JavaScript, PHP...) ejecutadas en el servidor Jobe interno (servicio `jobe`, sin Internet).
+- **GitHub y Google Drive**: usuario de GitHub en el perfil, inicio con GitHub opcional (`GITHUB_CLIENT_ID/SECRET`) y Google Drive en el selector de archivos cuando Google está configurado. Ver [integraciones](docs/INTEGRATIONS.md).
+- **Seguridad**: contraseñas fuertes, bloqueo por intentos, acceso solo con cuenta, cabeceras y rutas internas protegidas, MFA opcional (`MOODLE_MFA=1`). Ver [seguridad](docs/SECURITY.md).
+
+Con `MOODLE_DEMO_PASSWORD`, el instalador crea además las aulas de prueba "Programación II · 5.º 1.ª" y "Laboratorio de Programación Web · 6.º 2.ª" con ejercicios autocorregidos, y las cuentas ficticias `docente.demo`, `estudiante.demo`, `lucia.demo`, `joaquin.demo`, `preceptor.demo`, `coordinador.demo` y `directivo.demo`.
 
 ## Estructura y referencias
 

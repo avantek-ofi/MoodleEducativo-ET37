@@ -30,7 +30,15 @@ $THEME->prescsscallback = 'theme_et37_get_pre_scss';
 $THEME->extrascsscallback = 'theme_et37_get_extra_scss';
 $THEME->enable_dock = false;
 
+$THEME->yuicssmodules = [];
 $THEME->rendererfactory = 'theme_overridden_renderer_factory';
+// Same as Boost (theme settings are not inherited): no forced Navigation/Administration blocks,
+// since the left drawer and the secondary navigation already cover them; "Add a block" in the drawer.
+$THEME->requiredblocks = '';
+$THEME->addblockposition = BLOCK_ADDBLOCK_POSITION_FLATNAV;
 $THEME->iconsystem = \core\output\icon_system::FONTAWESOME;
 $THEME->haseditswitch = true;
 $THEME->usescourseindex = true;
+$THEME->activityheaderconfig = [
+    'notitle' => true,
+];

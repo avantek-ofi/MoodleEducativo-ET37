@@ -29,16 +29,19 @@ class profile_rules {
      *
      * @param array $data Submitted form data.
      * @param int|null $now Current timestamp, for tests.
+     * @param bool $required Whether an empty DNI is an error (signup and data step).
      * @return array Errors keyed by element name.
      */
-    public static function validate(array $data, ?int $now = null): array {
+    public static function validate(array $data, ?int $now = null, bool $required = false): array {
         $errors = [];
         $now = $now ?? time();
 
         $dnikey = 'profile_field_' . profile_fields::DNI;
         if (array_key_exists($dnikey, $data)) {
             $dni = trim((string) $data[$dnikey]);
-            if ($dni !== '' && !self::is_valid_dni($dni)) {
+            if ($dni === '' && $required) {
+                $errors[$dnikey] = get_string('dnirequired', 'local_aulaet37');
+            } else if ($dni !== '' && !self::is_valid_dni($dni)) {
                 $errors[$dnikey] = get_string('invaliddni', 'local_aulaet37');
             }
         }
