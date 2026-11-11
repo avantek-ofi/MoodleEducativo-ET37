@@ -23,7 +23,7 @@ Se aplica con `cli/security.php` (idempotente; sus valores pisan cambios manuale
 | Sesión y cookies | 4 h de inactividad; cookie `secure` si `MOODLE_URL` es https; sin incrustar el sitio en marcos ajenos; `Referrer-Policy`. |
 | Contenido | Limpieza de HTML en todo el sitio, sin `object`/`embed`, sin texto confiable, sin temas por usuario/curso; subida máx. 50 MB. |
 | Correo | Confirmación al cambiar el correo; envíos solo desde la dirección no-reply. |
-| Salidas (SSRF) | Bloqueados todos los rangos privados y `localhost`, salvo `172.30.37.0/24` (Jobe); solo puertos 80 y 443. |
+| Salidas (SSRF) | Bloqueados todos los rangos privados y `localhost`, salvo `172.30.37.10` (dirección fija de Jobe; `web` y `cron`, que comparten esa red, quedan bloqueados); solo puertos 80 y 443. |
 | Cron | Solo por línea de comandos (contenedor `cron`). |
 | MFA | `MOODLE_MFA=1`: app TOTP obligatoria para administradores, gestores y directivos (7 días de gracia para configurarla). |
 

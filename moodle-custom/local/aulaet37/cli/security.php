@@ -34,15 +34,18 @@ if ($options['help']) {
 
 $https = str_starts_with((string) $CFG->wwwroot, 'https://');
 
-// Subnet of the internal "sandbox" network in compose.yaml, where only the Jobe server lives.
-// Moodle blocks outgoing requests to private ranges (SSRF protection); this keeps every private
-// range blocked except that subnet, so CodeRunner can reach Jobe.
-$sandboxsubnet = '172.30.37.0/24';
+// Fixed address of the Jobe server on the internal "sandbox" network (compose.yaml). Moodle blocks
+// outgoing requests to private ranges (SSRF protection); every private address stays blocked except
+// this one, so CodeRunner reaches Jobe while the web and cron containers on the same network are not
+// reachable through URLs typed by users. Moodle's setting is a deny list, hence the ranges.
+$jobeaddress = '172.30.37.10';
 $blockedhosts = [
     '127.0.0.0/8', '192.168.0.0/16', '10.0.0.0/8',
-    // 172.16.0.0/12 except 172.30.37.0/24.
+    // 172.16.0.0/12 except 172.30.37.10/32.
     '172.16.0.0/13', '172.24.0.0/14', '172.28.0.0/15', '172.30.0.0/19', '172.30.32.0/22', '172.30.36.0/24',
-    '172.30.38.0/23', '172.30.40.0/21', '172.30.48.0/20', '172.30.64.0/18', '172.30.128.0/17', '172.31.0.0/16',
+    '172.30.37.0/29', '172.30.37.8/31', '172.30.37.11/32', '172.30.37.12/30', '172.30.37.16/28', '172.30.37.32/27',
+    '172.30.37.64/26', '172.30.37.128/25', '172.30.38.0/23', '172.30.40.0/21', '172.30.48.0/20', '172.30.64.0/18',
+    '172.30.128.0/17', '172.31.0.0/16',
     '0.0.0.0', 'localhost', '169.254.169.254', '0000::1',
 ];
 
@@ -104,7 +107,7 @@ foreach ($settings as $name => $value) {
     }
 }
 cli_writeln('Seguridad: ' . ($changed ? 'actualizado ' . implode(', ', $changed) : 'sin cambios') . '.');
-cli_writeln("Seguridad: solo se permite acceso interno a la red {$sandboxsubnet} (Jobe).");
+cli_writeln("Seguridad: la única dirección privada permitida es {$jobeaddress} (Jobe).");
 
 // Multi-factor authentication with Moodle's tool_mfa: TOTP app for administrators and directors.
 // "Role" gives the points to everybody who is NOT in the listed roles, so only they need a second factor;
